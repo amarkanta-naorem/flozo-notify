@@ -56,4 +56,6 @@ pids
 *.pid.lock
 
 # Diagnostic reports (https://nodejs.org/api/report.html)
-# report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
+report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
+
+whatsclone-5c6d0-firebase-adminsdk-fbsvc-74c7139076.json
