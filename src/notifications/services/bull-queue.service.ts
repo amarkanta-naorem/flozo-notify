@@ -5,8 +5,8 @@ import {
   SendToUsersDto,
   SendToTokenDto,
   SendToTopicDto,
-} from '../dto/send-notification.dto';
-import { NOTIFICATION_QUEUE } from '../../bullmq/bull-queue.module';
+} from '../dto/send-notification.dto.js';
+import { NOTIFICATION_QUEUE } from '../../bullmq/bull-queue.module.js';
 
 export interface EnqueueResult {
   jobId: string;

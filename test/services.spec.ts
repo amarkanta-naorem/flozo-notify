@@ -22,7 +22,11 @@ vi.mock('firebase-admin', () => ({
   initializeApp: mockInitializeApp,
   credential: { cert: mockCert },
   app: { App: mockApp },
-  messaging: { Messaging: mockMessaging },
+}));
+
+vi.mock('firebase-admin/messaging', () => ({
+  Messaging: mockMessaging,
+  getMessaging: mockMessaging,
 }));
 
 // Mock the database module (path is relative to test file location)
@@ -42,9 +46,9 @@ vi.mock('../src/db/database', () => ({
 }));
 
 // Dynamic imports after mocks
-const { FcmService } = await import('../src/firebase/services/fcm.service');
-const { FirebaseAdminService } = await import('../src/firebase/firebase-admin.service');
-const { DeviceTokenService } = await import('../src/notifications/services/device-token.service');
+const { FcmService } = await import('../src/firebase/services/fcm.service.js');
+const { FirebaseAdminService } = await import('../src/firebase/firebase-admin.service.js');
+const { DeviceTokenService } = await import('../src/notifications/services/device-token.service.js');
 
 describe('FcmService', () => {
   let fcmService: InstanceType<typeof FcmService>;

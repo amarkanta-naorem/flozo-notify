@@ -14,8 +14,8 @@
 import 'dotenv/config';
 import postgres from 'postgres';
 import { drizzle } from 'drizzle-orm/postgres-js';
-import { deviceTokens } from './src/db/schema/device-tokens.js';
-import { users } from './src/db/schema/users.js';
+import { deviceTokens } from '../src/db/schema/device-tokens.js';
+import { users } from '../src/db/schema/users.js';
 import { eq, sql } from 'drizzle-orm';
 
 interface MigrationResult {

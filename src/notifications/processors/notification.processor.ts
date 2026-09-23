@@ -2,11 +2,17 @@ import { Injectable, Logger } from '@nestjs/common';
 import { Inject } from '@nestjs/common';
 import { Job } from 'bullmq';
 import { PostgresJsDatabase } from 'drizzle-orm/postgres-js';
-import * as schema from '../../db/schema';
-import { NotificationJob, SendToUserJob, SendToUsersJob, SendToTokenJob, SendToTopicJob } from '../dto/notification-job.dto';
-import { DeviceTokenService } from '../services/device-token.service';
-import { NotificationService } from '../services/notification.service';
-import { FcmService } from '../../firebase/services/fcm.service';
+import * as schema from '../../db/schema/index.js';
+import type {
+  NotificationJob,
+  SendToUserJob,
+  SendToUsersJob,
+  SendToTokenJob,
+  SendToTopicJob,
+} from '../dto/notification-job.dto.js';
+import { DeviceTokenService } from '../services/device-token.service.js';
+import { NotificationService } from '../services/notification.service.js';
+import { FcmService } from '../../firebase/services/fcm.service.js';
 
 export interface JobResult {
   success: boolean;
@@ -147,7 +153,7 @@ export class NotificationProcessor {
       success: result.failed === 0,
       sent: result.success,
       failed: result.failed,
-      invalidTokens: result.failedTokens.map((ft) => ft.token),
+      invalidTokens: result.failedTokens.map((ft: { token: string }) => ft.token),
     };
   }
 }

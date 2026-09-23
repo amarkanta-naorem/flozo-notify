@@ -16,7 +16,7 @@ export class NotificationAuthGuard implements CanActivate {
     this.accessSecret = configService.get<string>('JWT_ACCESS_SECRET') || '';
   }
 
-  contexts(context: ExecutionContext): boolean {
+  canActivate(context: ExecutionContext): boolean {
     const request = context.switchToHttp().getRequest();
     const authHeader = request.headers.authorization;
 
@@ -33,8 +33,9 @@ export class NotificationAuthGuard implements CanActivate {
       };
       request.user = payload;
       return true;
-    } catch (error: any) {
-      this.logger.warn(`Token verification failed: ${error.message}`);
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : 'Unknown error';
+      this.logger.warn(`Token verification failed: ${message}`);
       throw new UnauthorizedException('Invalid or expired token.');
     }
   }

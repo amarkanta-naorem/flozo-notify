@@ -5,8 +5,8 @@ import {
   timestamp,
   index,
 } from 'drizzle-orm/pg-core';
-import { deviceTokens } from './device-tokens';
-import { notifications } from './notifications';
+import { deviceTokens } from './device-tokens.js';
+import { notifications } from './notifications.js';
 
 export const notificationLogs = pgTable(
   'notification_logs',

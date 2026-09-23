@@ -1,8 +1,8 @@
 import { Inject, Injectable, Logger } from '@nestjs/common';
 import { PostgresJsDatabase } from 'drizzle-orm/postgres-js';
-import * as schema from '../../db/schema';
-import { notifications, notificationLogs } from '../../db/schema';
-import { NotificationJobData } from '../dto/notification-job.dto';
+import * as schema from '../../db/schema/index.js';
+import { notifications, notificationLogs } from '../../db/schema/index.js';
+import { NotificationJobData } from '../dto/notification-job.dto.js';
 
 export interface NotificationRecord {
   id: number;

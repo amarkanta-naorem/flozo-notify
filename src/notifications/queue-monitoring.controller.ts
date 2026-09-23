@@ -1,6 +1,6 @@
 import { Controller, Get, Inject } from '@nestjs/common';
 import { Queue } from 'bullmq';
-import { NOTIFICATION_QUEUE } from '../bullmq/bull-queue.module';
+import { NOTIFICATION_QUEUE } from '../bullmq/bull-queue.module.js';
 
 export interface QueueStats {
   queue: string;

@@ -1,12 +1,12 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { FirebaseModule } from './firebase/firebase.module';
-import { DrizzleModule } from './db/drizzle.module';
-import { BullQueueModule } from './bullmq/bull-queue.module';
-import { AuthModule } from './auth/auth.module';
-import { RateLimitModule } from './ratelimit/ratelimit.module';
-import { NotificationsModule } from './notifications/notifications.module';
-import { HealthController } from './health/health.controller';
+import { FirebaseModule } from './firebase/firebase.module.js';
+import { DrizzleModule } from './db/drizzle.module.js';
+import { BullQueueModule } from './bullmq/bull-queue.module.js';
+import { AuthModule } from './auth/auth.module.js';
+import { RateLimitModule } from './ratelimit/ratelimit.module.js';
+import { NotificationsModule } from './notifications/notifications.module.js';
+import { HealthController } from './health/health.controller.js';
 
 @Module({
   imports: [

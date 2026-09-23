@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { NotificationAuthGuard } from './guards/notification-auth.guard';
+import { NotificationAuthGuard } from './guards/notification-auth.guard.js';
 
 @Module({
   imports: [ConfigModule],

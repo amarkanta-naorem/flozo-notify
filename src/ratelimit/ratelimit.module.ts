@@ -16,7 +16,7 @@ import { APP_GUARD } from '@nestjs/core';
   providers: [
     {
       provide: APP_GUARD,
-      useFactory: () => new ThrottlerGuard(),
+      useClass: ThrottlerGuard,
     },
   ],
   exports: [ThrottlerModule],

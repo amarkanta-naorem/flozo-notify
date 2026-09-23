@@ -6,13 +6,13 @@ import {
   HttpStatus,
   Logger,
 } from '@nestjs/common';
-import { BullQueueService } from './services/bull-queue.service';
-import {
+import { BullQueueService } from './services/bull-queue.service.js';
+import type {
   SendToUserDto,
   SendToUsersDto,
   SendToTokenDto,
   SendToTopicDto,
-} from '../dto/send-notification.dto';
+} from './dto/send-notification.dto.js';
 
 export interface NotificationResponse {
   success: boolean;
@@ -35,8 +35,9 @@ export class NotificationsController {
         jobId,
         message: 'Notification job enqueued',
       };
-    } catch (error: any) {
-      this.logger.error(`Failed to enqueue send-to-user: ${error.message}`);
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : 'Unknown error';
+      this.logger.error(`Failed to enqueue send-to-user: ${message}`);
       throw new HttpException(
         'Failed to enqueue notification job',
         HttpStatus.INTERNAL_SERVER_ERROR,
@@ -53,8 +54,9 @@ export class NotificationsController {
         jobId,
         message: 'Notification job enqueued',
       };
-    } catch (error: any) {
-      this.logger.error(`Failed to enqueue send-to-users: ${error.message}`);
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : 'Unknown error';
+      this.logger.error(`Failed to enqueue send-to-users: ${message}`);
       throw new HttpException(
         'Failed to enqueue notification job',
         HttpStatus.INTERNAL_SERVER_ERROR,
@@ -71,8 +73,9 @@ export class NotificationsController {
         jobId,
         message: 'Notification job enqueued',
       };
-    } catch (error: any) {
-      this.logger.error(`Failed to enqueue send-to-token: ${error.message}`);
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : 'Unknown error';
+      this.logger.error(`Failed to enqueue send-to-token: ${message}`);
       throw new HttpException(
         'Failed to enqueue notification job',
         HttpStatus.INTERNAL_SERVER_ERROR,
@@ -89,8 +92,9 @@ export class NotificationsController {
         jobId,
         message: 'Notification job enqueued',
       };
-    } catch (error: any) {
-      this.logger.error(`Failed to enqueue send-to-topic: ${error.message}`);
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : 'Unknown error';
+      this.logger.error(`Failed to enqueue send-to-topic: ${message}`);
       throw new HttpException(
         'Failed to enqueue notification job',
         HttpStatus.INTERNAL_SERVER_ERROR,

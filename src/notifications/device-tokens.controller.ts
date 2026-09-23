@@ -8,12 +8,12 @@ import {
   HttpStatus,
   Logger,
 } from '@nestjs/common';
-import { DeviceTokenService } from '../services/device-token.service';
-import {
+import { DeviceTokenService } from './services/device-token.service.js';
+import type {
   RegisterDeviceTokenDto,
   UpdateDeviceTokenDto,
   DeactivateDeviceTokenDto,
-} from '../dto/device-token.dto';
+} from './dto/device-token.dto.js';
 
 export interface DeviceTokenResponse {
   success: boolean;
@@ -44,8 +44,9 @@ export class DeviceTokensController {
           ? 'Device token registered successfully'
           : 'Device token updated successfully',
       };
-    } catch (error: any) {
-      this.logger.error(`Failed to register device token: ${error.message}`);
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : 'Unknown error';
+      this.logger.error(`Failed to register device token: ${message}`);
       throw new HttpException(
         'Failed to register device token',
         HttpStatus.INTERNAL_SERVER_ERROR,
@@ -57,7 +58,7 @@ export class DeviceTokensController {
   async update(@Body() dto: UpdateDeviceTokenDto): Promise<DeviceTokenResponse> {
     try {
       const result = await this.deviceTokenService.registerDeviceToken(
-        0, // userId not needed for update; service looks up by token
+        0,
         dto.token,
         dto.platform,
       );
@@ -67,8 +68,9 @@ export class DeviceTokensController {
         created: result.created,
         message: 'Device token updated successfully',
       };
-    } catch (error: any) {
-      this.logger.error(`Failed to update device token: ${error.message}`);
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : 'Unknown error';
+      this.logger.error(`Failed to update device token: ${message}`);
       throw new HttpException(
         'Failed to update device token',
         HttpStatus.INTERNAL_SERVER_ERROR,
@@ -88,8 +90,9 @@ export class DeviceTokensController {
           ? 'Device token deactivated successfully'
           : 'Device token not found',
       };
-    } catch (error: any) {
-      this.logger.error(`Failed to deactivate device token: ${error.message}`);
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : 'Unknown error';
+      this.logger.error(`Failed to deactivate device token: ${message}`);
       throw new HttpException(
         'Failed to deactivate device token',
         HttpStatus.INTERNAL_SERVER_ERROR,

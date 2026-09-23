@@ -1,8 +1,8 @@
 import { Inject, Injectable, Logger } from '@nestjs/common';
 import { PostgresJsDatabase } from 'drizzle-orm/postgres-js';
-import * as schema from '../../db/schema';
+import * as schema from '../../db/schema/index.js';
 import { eq, and } from 'drizzle-orm';
-import { deviceTokens } from '../../db/schema/device-tokens';
+import { deviceTokens } from '../../db/schema/device-tokens.js';
 
 @Injectable()
 export class DeviceTokenService {

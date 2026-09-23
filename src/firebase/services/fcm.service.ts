@@ -1,6 +1,11 @@
 import { Injectable, Logger } from '@nestjs/common';
-import * as admin from 'firebase-admin';
-import { FirebaseAdminService } from '../firebase-admin.service';
+import { FirebaseError } from 'firebase-admin';
+import {
+  Message,
+  MulticastMessage,
+  getMessaging,
+} from 'firebase-admin/messaging';
+import { FirebaseAdminService } from '../firebase-admin.service.js';
 
 export interface FcmNotificationPayload {
   title: string;
@@ -55,7 +60,7 @@ export class FcmService {
   ): Promise<string> {
     const messaging = this.firebaseAdminService.getMessaging();
 
-    const message: admin.messaging.Message = {
+    const message: Message = {
       token: deviceToken,
       notification: {
         title: notification.title,
@@ -118,7 +123,7 @@ export class FcmService {
 
     const messaging = this.firebaseAdminService.getMessaging();
 
-    const message: admin.messaging.MulticastMessage = {
+    const message: MulticastMessage = {
       tokens: deviceTokens,
       notification: {
         title: notification.title,
@@ -161,15 +166,17 @@ export class FcmService {
     const response = await messaging.sendEachForMulticast(message);
 
     const failedTokens: FcmErrorInfo[] = [];
-    response.responses.forEach((result, index) => {
-      if (!result.success) {
-        failedTokens.push({
-          index,
-          token: deviceTokens[index],
-          error: result.error?.message || 'Unknown error',
-        });
-      }
-    });
+    response.responses.forEach(
+      (result: { success: boolean; error?: { message?: string } }, index: number) => {
+        if (!result.success) {
+          failedTokens.push({
+            index,
+            token: deviceTokens[index],
+            error: result.error?.message || 'Unknown error',
+          });
+        }
+      },
+    );
 
     this.logger.log(
       `Batch notification sent. Success: ${response.successCount}, Failed: ${response.failureCount}`,
@@ -193,7 +200,7 @@ export class FcmService {
   ): Promise<string> {
     const messaging = this.firebaseAdminService.getMessaging();
 
-    const message: admin.messaging.Message = {
+    const message: Message = {
       topic,
       notification: {
         title: notification.title,
@@ -242,7 +249,7 @@ export class FcmService {
   /**
    * Determine if a Firebase error is transient (should retry) or permanent.
    */
-  isTransientError(error: admin.FirebaseError): boolean {
+  isTransientError(error: FirebaseError): boolean {
     const code = error.code;
     const transientCodes = [
       'internal',
@@ -259,7 +266,7 @@ export class FcmService {
   /**
    * Determine if a token is invalid/unregistered (should NOT retry).
    */
-  isInvalidTokenError(error: admin.FirebaseError): boolean {
+  isInvalidTokenError(error: FirebaseError): boolean {
     const code = error.code;
     const invalidTokenCodes = [
       'invalid-argument',
